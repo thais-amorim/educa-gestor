@@ -11,3 +11,8 @@ pluginManagement {
     }
 }
 rootProject.name="educa-gestor"
+include(
+    "frontend",
+    "backend",
+)
+

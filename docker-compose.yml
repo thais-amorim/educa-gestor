@@ -22,7 +22,7 @@ services:
     container_name: flyway
     image: flyway/flyway:9.20.1-alpine
     volumes:
-      - ./educa-gestor/src/main/resources/db/migration:/flyway/sql
+      - ./backend/src/main/resources/db/migration:/flyway/sql
     environment:
       FLYWAY_URL: jdbc:postgresql://postgres:5432/educa_gestor_database
       FLYWAY_USER: dbuser01
@@ -51,8 +51,6 @@ services:
       timeout: 2s
       retries: 15
     command: [ "start-dev", "--http-port", "7080", "--https-port", "7443", "--import-realm" ]
-    volumes: # Ignore if you don't have realm-export.json to migrate data
-      - ../keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     ports:
       - "7080:7080"
       - "7443:7443"
