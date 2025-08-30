@@ -1,0 +1,64 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15.3-alpine3.18
+    restart: always
+    environment:
+      POSTGRES_USER: dbuser01
+      POSTGRES_PASSWORD: dbuser01
+      POSTGRES_DB: educa_gestor_database
+      PGUSER: dbuser01
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready -U dbuser01 -d educa_gestor_database
+      interval: 1s
+      timeout: 5s
+      retries: 5
+    networks:
+      - local_network
+
+  flyway:
+    container_name: flyway
+    image: flyway/flyway:9.20.1-alpine
+    volumes:
+      - ./educa-gestor/src/main/resources/db/migration:/flyway/sql
+    environment:
+      FLYWAY_URL: jdbc:postgresql://postgres:5432/educa_gestor_database
+      FLYWAY_USER: dbuser01
+      FLYWAY_PASSWORD: dbuser01
+      FLYWAY_DEFAULT_SCHEMA: public
+    command: -connectRetries=1 migrate
+    restart: on-failure
+    networks:
+      - local_network
+    depends_on:
+      - postgres
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 7080
+      KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+      KC_LOG_LEVEL: info
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:7080/health/ready" ]
+      interval: 15s
+      timeout: 2s
+      retries: 15
+    command: [ "start-dev", "--http-port", "7080", "--https-port", "7443", "--import-realm" ]
+    volumes: # Ignore if you don't have realm-export.json to migrate data
+      - ../keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    ports:
+      - "7080:7080"
+      - "7443:7443"
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    driver: bridge
