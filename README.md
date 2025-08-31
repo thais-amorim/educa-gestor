@@ -1,8 +1,32 @@
 # educa-gestor
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Uma breve descrição sobre o que esse projeto faz e para quem ele é
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+
+## Autores
+
+- [@thais-amorim](https://github.com/thais-amorim)
+
+
+## Demonstração
+
+Insira um gif ou um link de alguma demonstração
+
+
+## Funcionalidades
+
+- Frontend
+  - Conexão com keycloak
+  - Angular Material UI
+  - Executar front: `ng serve`
+- Backend
+  - Exceutar back: `cd backend && quarkus dev`
+
+## Melhorias
+
+Que melhorias você fez no seu código? Ex: refatorações, melhorias de performance, acessibilidade, etc
+
+--------------------------------
 
 ## Running the application in dev mode
 
