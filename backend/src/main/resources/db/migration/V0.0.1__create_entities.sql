@@ -1,0 +1,46 @@
+CREATE TABLE subject (
+    id INT NOT NULL PRIMARY KEY,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    instructor_id INT NULL,
+    workload INT,
+    begin_at TIMESTAMP NULL,
+    end_at TIMESTAMP NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+);
+
+CREATE TABLE semester (
+    id INT NOT NULL PRIMARY KEY,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+)
+
+CREATE TABLE semester_subject (
+    id INT NOT NULL PRIMARY KEY,
+    subject_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (subject_id) REFERENCES subject(id),
+    FOREIGN KEY (semester_id) REFERENCES semester(id)
+);
+
+CREATE TABLE course (
+    id INT NOT NULL PRIMARY KEY,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+);
+
+CREATE TABLE course_semester (
+    id INT NOT NULL PRIMARY KEY,
+    course_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (course_id) REFERENCES course(id),
+    FOREIGN KEY (semester_id) REFERENCES semester(id)
+);
