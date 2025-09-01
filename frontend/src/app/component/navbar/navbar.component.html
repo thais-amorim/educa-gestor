@@ -1,0 +1,32 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+        <h2>Educa Gestor</h2>
+    </div>
+    <a mat-button href="/">Home</a>
+    <a mat-button href="/subjects">Disciplinas</a>
+    <div class="navbar-content">
+        <div *ngIf="loginTemplate" class="user-info">
+            <span class="welcome-text">Bem-vindo, {{ username }}!</span>
+            <button class="btn btn-outline" (click)="logout()">Sair</button>
+        </div>
+        <ng-template #loginTemplate>
+            <button class="btn btn-primary" (click)="login()">Entrar</button>
+        </ng-template>
+        <a button (click)="logout()">Logout</a>
+    </div>
+</nav>
+
+<!-- <mat-toolbar color="primary">
+    Educa Gestor
+    <a mat-button href="/">Home</a>
+    <a mat-button href="/subjects">Disciplinas</a>
+
+    <div *ngIf="isLoggedIn">
+        <span class="welcome-text">Bem-vindo, {{ username }}!</span>
+        <button mat-button [matMenuTriggerFor]="afterMenu">Admin</button>
+        <mat-menu #afterMenu="matMenu" xPosition="after">
+            <button mat-menu-item (click)="addSubject()">Adicionar nova disciplina</button>
+        </mat-menu>
+    </div>
+    <a mat-button (click)="logout()">Logout</a>
+</mat-toolbar> -->
