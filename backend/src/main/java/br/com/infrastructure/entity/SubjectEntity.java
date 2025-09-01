@@ -2,6 +2,7 @@ package br.com.infrastructure.entity;
 
 import br.com.domain.model.Subject;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,12 +13,13 @@ public class SubjectEntity extends PanacheEntityBase {
     @Id
     private String code;
     private String name;
-    private Long instructorName;
+    @Column(name = "instructor_name")
+    private String instructorName;
     private Long workload;
 
     public SubjectEntity() {}
 
-    public SubjectEntity(String code, String name, Long instructorName, Long workload) {
+    public SubjectEntity(String code, String name, String instructorName, Long workload) {
         this.code = code;
         this.name = name;
         this.instructorName = instructorName;
@@ -40,11 +42,11 @@ public class SubjectEntity extends PanacheEntityBase {
         this.name = name;
     }
 
-    public Long getInstructorName() {
+    public String getInstructorName() {
         return instructorName;
     }
 
-    public void setInstructorName(Long instructorName) {
+    public void setInstructorName(String instructorName) {
         this.instructorName = instructorName;
     }
 

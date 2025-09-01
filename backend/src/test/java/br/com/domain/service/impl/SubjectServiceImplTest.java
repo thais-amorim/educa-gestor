@@ -37,8 +37,8 @@ class SubjectServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        expectedSubject = new Subject("CS101", "Computer Science", 1L, 60L);
-        expectedSubjectEntity = new SubjectEntity("CS101", "Computer Science", 1L, 60L);
+        expectedSubject = new Subject("CS101", "Computer Science", "Amanda da Silva", 60L);
+        expectedSubjectEntity = new SubjectEntity("CS101", "Computer Science", "Amanda da Silva", 60L);
     }
 
     @Test
@@ -158,8 +158,8 @@ class SubjectServiceImplTest {
     @Test
     void whenUpdate_ThenSuccess() {
         // Given
-        Subject subjectToUpdate = new Subject("CS101", "Updated Computer Science", 2L, 80L);
-        SubjectEntity existingEntity = new SubjectEntity("CS101", "Computer Science", 1L, 60L);
+        Subject subjectToUpdate = new Subject("CS101", "Updated Computer Science", "João Pereira", 80L);
+        SubjectEntity existingEntity = new SubjectEntity("CS101", "Computer Science", "Amanda da Silva", 60L);
         
         when(subjectRepository.findByIdOptional("CS101")).thenReturn(Optional.of(existingEntity));
         doNothing().when(subjectRepository).persist(any(SubjectEntity.class));
@@ -171,7 +171,7 @@ class SubjectServiceImplTest {
         assertNotNull(obtained);
         assertEquals("CS101", obtained.getCode());
         assertEquals("Updated Computer Science", obtained.getName());
-        assertEquals(2L, obtained.getInstructorName());
+        assertEquals("João Pereira", obtained.getInstructorName());
         assertEquals(80L, obtained.getWorkload());
         verify(subjectRepository, times(1)).findByIdOptional("CS101");
         verify(subjectRepository, times(1)).persist(any(SubjectEntity.class));
@@ -180,16 +180,16 @@ class SubjectServiceImplTest {
     @Test
     void whenUpdate_ThenFailure_SubjectNotFound() {
         // Given
-        Subject subjectToUpdate = new Subject("NOT_EXISTS", "Updated Subject", 2L, 80L);
-        when(subjectRepository.findByIdOptional("NOT_EXISTS")).thenReturn(Optional.empty());
+        Subject subjectToUpdate = new Subject("UNKNOWN_CODE", "Updated Subject", "Luciana Souza", 80L);
+        when(subjectRepository.findByIdOptional("UNKNOWN_CODE")).thenReturn(Optional.empty());
 
         // When & Then
         SubjectNotFoundException exception = assertThrows(SubjectNotFoundException.class, () -> {
             subjectService.update(subjectToUpdate);
         });
 
-        assertEquals("Subject not found for code: NOT_EXISTS", exception.getMessage());
-        verify(subjectRepository, times(1)).findByIdOptional("NOT_EXISTS");
+        assertEquals("Subject not found for code: UNKNOWN_CODE", exception.getMessage());
+        verify(subjectRepository, times(1)).findByIdOptional("UNKNOWN_CODE");
         verify(subjectRepository, never()).persist(any(SubjectEntity.class));
     }
 
@@ -206,8 +206,8 @@ class SubjectServiceImplTest {
     @Test
     void testFindAll_ThenSuccess() {
         // Given
-        SubjectEntity entity1 = new SubjectEntity("CS101", "Computer Science", 1L, 60L);
-        SubjectEntity entity2 = new SubjectEntity("MATH101", "Mathematics", 2L, 40L);
+        SubjectEntity entity1 = new SubjectEntity("CS101", "Computer Science", "Amanda da Silva", 60L);
+        SubjectEntity entity2 = new SubjectEntity("MATH101", "Mathematics", "Luciana Souza", 40L);
         List<SubjectEntity> entities = Arrays.asList(entity1, entity2);
         
         when(subjectRepository.findAll()).thenReturn(panacheQuery);
@@ -222,12 +222,12 @@ class SubjectServiceImplTest {
         
         assertEquals("CS101", obtained.get(0).getCode());
         assertEquals("Computer Science", obtained.get(0).getName());
-        assertEquals(1L, obtained.get(0).getInstructorName());
+        assertEquals("Amanda da Silva", obtained.get(0).getInstructorName());
         assertEquals(60L, obtained.get(0).getWorkload());
         
         assertEquals("MATH101", obtained.get(1).getCode());
         assertEquals("Mathematics", obtained.get(1).getName());
-        assertEquals(2L, obtained.get(1).getInstructorName());
+        assertEquals("Luciana Souza", obtained.get(1).getInstructorName());
         assertEquals(40L, obtained.get(1).getWorkload());
         
         verify(subjectRepository, times(1)).findAll();
@@ -237,7 +237,7 @@ class SubjectServiceImplTest {
     void testFindAll_EmptyList() {
         // Given
         when(subjectRepository.findAll()).thenReturn(panacheQuery);
-        when(panacheQuery.stream()).thenReturn(Arrays.<SubjectEntity>asList().stream());
+        when(panacheQuery.stream()).thenReturn(List.<SubjectEntity>of().stream());
 
         // When
         List<Subject> obtained = subjectService.findAll();

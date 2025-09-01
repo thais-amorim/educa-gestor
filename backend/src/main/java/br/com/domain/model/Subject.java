@@ -5,10 +5,10 @@ import br.com.infrastructure.entity.SubjectEntity;
 public class Subject {
     private String code;
     private String name;
-    private Long instructorName;
+    private String instructorName;
     private Long workload;
 
-    public Subject(String code, String name, Long instructorName, Long workload) {
+    public Subject(String code, String name, String instructorName, Long workload) {
         this.code = code;
         this.name = name;
         this.instructorName = instructorName;
@@ -40,11 +40,11 @@ public class Subject {
         this.name = name;
     }
 
-    public Long getInstructorName() {
+    public String getInstructorName() {
         return instructorName;
     }
 
-    public void setInstructorName(Long instructorName) {
+    public void setInstructorName(String instructorName) {
         this.instructorName = instructorName;
     }
 
