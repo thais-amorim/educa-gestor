@@ -11,7 +11,7 @@ public class SubjectControllerTest {
     @Test
     void testFindAllEndpoint() {
         given()
-                .when().get("/subjects/all")
+                .when().get("/subject/all")
                 .then()
                 .statusCode(200);
 //                .body(is("Hello from Quarkus REST"));
