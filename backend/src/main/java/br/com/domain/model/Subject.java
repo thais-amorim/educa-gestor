@@ -2,23 +2,17 @@ package br.com.domain.model;
 
 import br.com.infrastructure.entity.SubjectEntity;
 
-import java.util.Date;
-
 public class Subject {
     private String code;
     private String name;
     private Long instructorName;
     private Long workload;
-    private Date beginAt;
-    private Date endAt;
 
-    public Subject(String code, String name, Long instructorName, Long workload, Date beginAt, Date endAt) {
+    public Subject(String code, String name, Long instructorName, Long workload) {
         this.code = code;
         this.name = name;
         this.instructorName = instructorName;
         this.workload = workload;
-        this.beginAt = beginAt;
-        this.endAt = endAt;
     }
 
     public SubjectEntity toEntity() {
@@ -26,9 +20,7 @@ public class Subject {
             this.code,
             this.name,
             this.instructorName,
-            this.workload,
-            this.beginAt,
-            this.endAt
+            this.workload
         );
     }
 
@@ -62,21 +54,5 @@ public class Subject {
 
     public void setWorkload(Long workload) {
         this.workload = workload;
-    }
-
-    public Date getBeginAt() {
-        return beginAt;
-    }
-
-    public void setBeginAt(Date beginAt) {
-        this.beginAt = beginAt;
-    }
-
-    public Date getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(Date endAt) {
-        this.endAt = endAt;
     }
 }

@@ -6,8 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "subject")
 public class SubjectEntity extends PanacheEntityBase {
@@ -16,18 +14,14 @@ public class SubjectEntity extends PanacheEntityBase {
     private String name;
     private Long instructorName;
     private Long workload;
-    private Date beginAt;
-    private Date endAt;
 
     public SubjectEntity() {}
 
-    public SubjectEntity(String code, String name, Long instructorName, Long workload, Date beginAt, Date endAt) {
+    public SubjectEntity(String code, String name, Long instructorName, Long workload) {
         this.code = code;
         this.name = name;
         this.instructorName = instructorName;
         this.workload = workload;
-        this.beginAt = beginAt;
-        this.endAt = endAt;
     }
 
     public String getCode() {
@@ -62,30 +56,12 @@ public class SubjectEntity extends PanacheEntityBase {
         this.workload = workload;
     }
 
-    public Date getBeginAt() {
-        return beginAt;
-    }
-
-    public void setBeginAt(Date beginAt) {
-        this.beginAt = beginAt;
-    }
-
-    public Date getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(Date endAt) {
-        this.endAt = endAt;
-    }
-
     public Subject toDomain() {
         return new Subject(
                 this.code,
                 this.name,
                 this.instructorName,
-                this.workload,
-                this.beginAt,
-                this.endAt
+                this.workload
         );
     }
 }

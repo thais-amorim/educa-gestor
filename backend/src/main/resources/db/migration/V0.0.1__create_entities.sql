@@ -4,8 +4,6 @@ CREATE TABLE subject (
     name VARCHAR(200) NOT NULL,
     instructor_id INT NULL,
     workload INT,
-    begin_at TIMESTAMP NULL,
-    end_at TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NULL DEFAULT NULL
 );
