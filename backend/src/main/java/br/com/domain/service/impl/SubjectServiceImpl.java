@@ -20,20 +20,21 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional
     public Subject create(Subject subject) {
-        subjectRepository.persist(subject.toEntity());
+        SubjectEntity entity = subject.toEntity();
+        subjectRepository.persist(entity);
         return subject;
     }
 
     @Override
     @Transactional
-    public Boolean delete(Long subjectId) {
-        return subjectRepository.deleteById(subjectId);
+    public Boolean delete(String subjectCode) {
+        return subjectRepository.deleteById(subjectCode);
     }
 
     @Override
-    public Subject findById(Long subjectId) {
-        Optional<SubjectEntity> optional = subjectRepository.findByIdOptional(subjectId);
-        SubjectEntity obtained = optional.orElseThrow(() -> new SubjectNotFoundException(subjectId));
+    public Subject findByCode(String subjectCode) {
+        Optional<SubjectEntity> optional = subjectRepository.findByIdOptional(subjectCode);
+        SubjectEntity obtained = optional.orElseThrow(() -> new SubjectNotFoundException(subjectCode));
         return obtained.toDomain();
     }
 

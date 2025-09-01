@@ -56,18 +56,18 @@ public class SemesterController {
     }
 
     @POST
-    @Path("/{semesterId}/subjects/{subjectId}")
+    @Path("/{semesterId}/subjects/{subjectCode}")
     @Authenticated
-    public Response addSubjectToSemester(@RestPath Long semesterId, @RestPath Long subjectId) {
-        Semester updated = service.addSubjectToSemester(semesterId, subjectId);
+    public Response addSubjectToSemester(@RestPath Long semesterId, @RestPath String subjectCode) {
+        Semester updated = service.addSubjectToSemester(semesterId, subjectCode);
         return Response.ok().entity(updated).build();
     }
 
     @DELETE
-    @Path("/{semesterId}/subjects/{subjectId}")
+    @Path("/{semesterId}/subjects/{subjectCode}")
     @Authenticated
-    public Response removeSubjectFromSemester(@RestPath Long semesterId, @RestPath Long subjectId) {
-        Semester updated = service.removeSubjectFromSemester(semesterId, subjectId);
+    public Response removeSubjectFromSemester(@RestPath Long semesterId, @RestPath String subjectCode) {
+        Semester updated = service.removeSubjectFromSemester(semesterId, subjectCode);
         return Response.ok().entity(updated).build();
     }
 }

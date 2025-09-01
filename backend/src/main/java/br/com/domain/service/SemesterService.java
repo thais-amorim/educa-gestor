@@ -10,6 +10,6 @@ public interface SemesterService {
     public Boolean delete(Long semesterId);
     public Semester findById(Long semesterId);
     public List<Semester> findAll();
-    public Semester addSubjectToSemester(Long semesterId, Long subjectId);
-    public Semester removeSubjectFromSemester(Long semesterId, Long subjectId);
+    public Semester addSubjectToSemester(Long semesterId, String subjectCode);
+    public Semester removeSubjectFromSemester(Long semesterId, String subjectCode);
 }

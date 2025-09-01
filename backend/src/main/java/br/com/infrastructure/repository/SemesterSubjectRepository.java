@@ -16,4 +16,12 @@ public class SemesterSubjectRepository implements PanacheRepository<SemesterSubj
     public void deleteBySemesterId(Long semesterId) {
         delete("semester.id", semesterId);
     }
+    
+    public List<SemesterSubjectEntity> findBySubjectCode(String subjectCode) {
+        return find("subject.code", subjectCode).list();
+    }
+    
+    public void deleteBySubjectCode(String subjectCode) {
+        delete("subject.code", subjectCode);
+    }
 }

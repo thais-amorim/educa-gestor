@@ -1,15 +1,17 @@
 package br.com.infrastructure.entity;
 
 import br.com.domain.model.Subject;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "subject")
-public class SubjectEntity extends PanacheEntity {
+public class SubjectEntity extends PanacheEntityBase {
+    @Id
     private String code;
     private String name;
     private Long instructorName;
@@ -78,7 +80,6 @@ public class SubjectEntity extends PanacheEntity {
 
     public Subject toDomain() {
         return new Subject(
-                this.id,
                 this.code,
                 this.name,
                 this.instructorName,

@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class SemesterSubjectEntity extends PanacheEntity {
     
     @ManyToOne
-    @JoinColumn(name = "subject_id")
+    @JoinColumn(name = "subject_code")
     private SubjectEntity subject;
     
     @ManyToOne

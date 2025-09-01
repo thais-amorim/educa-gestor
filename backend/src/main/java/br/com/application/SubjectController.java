@@ -29,18 +29,18 @@ public class SubjectController {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/{code}")
     @Authenticated
-    public Response delete(@RestPath Long id) {
-        service.delete(id);
-        return Response.ok().entity(id).build();
+    public Response delete(@RestPath String code) {
+        service.delete(code);
+        return Response.ok().entity(code).build();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/{code}")
     @Authenticated
-    public Response findById(@RestPath Long id) {
-        Subject obtained = service.findById(id);
+    public Response findByCode(@RestPath String code) {
+        Subject obtained = service.findByCode(code);
         return Response.ok().entity(obtained.toEntity()).build();
     }
 

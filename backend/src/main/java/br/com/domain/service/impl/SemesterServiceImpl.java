@@ -50,7 +50,7 @@ public class SemesterServiceImpl implements SemesterService {
     private void saveSemesterSubjectRelation(SemesterEntity entity, SubjectEntity subjectEntity) {
         // Verificar se a relação semester-subject já existe
         List<SemesterSubjectEntity> existing = semesterSubjectRepository
-                .find("semester.id = ?1 and subject.id = ?2", entity.id, subjectEntity.id)
+                .find("semester.id = ?1 and subject.code = ?2", entity.id, subjectEntity.getCode())
                 .list();
 
         if (existing.isEmpty()) {
@@ -72,7 +72,6 @@ public class SemesterServiceImpl implements SemesterService {
             // Subject não existe, criar nova
             subjectEntity = subject.toEntity();
             subjectRepository.persist(subjectEntity);
-            subject.setId(subjectEntity.id);
         }
         return subjectEntity;
     }
@@ -131,16 +130,16 @@ public class SemesterServiceImpl implements SemesterService {
 
     @Override
     @Transactional
-    public Semester addSubjectToSemester(Long semesterId, Long subjectId) {
+    public Semester addSubjectToSemester(Long semesterId, String subjectCode) {
         Optional<SemesterEntity> semesterOpt = semesterRepository.findByIdOptional(semesterId);
         SemesterEntity semesterEntity = semesterOpt.orElseThrow(() -> new SemesterNotFoundException(semesterId));
         
-        Optional<SubjectEntity> subjectOpt = subjectRepository.findByIdOptional(subjectId);
-        SubjectEntity subjectEntity = subjectOpt.orElseThrow(() -> new SubjectNotFoundException(subjectId));
+        Optional<SubjectEntity> subjectOpt = subjectRepository.findByIdOptional(subjectCode);
+        SubjectEntity subjectEntity = subjectOpt.orElseThrow(() -> new SubjectNotFoundException(subjectCode));
         
         // Verifica se a relação já existe
         List<SemesterSubjectEntity> existing = semesterSubjectRepository
-                .find("semester.id = ?1 and subject.id = ?2", semesterId, subjectId)
+                .find("semester.id = ?1 and subject.code = ?2", semesterId, subjectCode)
                 .list();
         
         if (existing.isEmpty()) {
@@ -153,8 +152,8 @@ public class SemesterServiceImpl implements SemesterService {
 
     @Override
     @Transactional
-    public Semester removeSubjectFromSemester(Long semesterId, Long subjectId) {
-        semesterSubjectRepository.delete("semester.id = ?1 and subject.id = ?2", semesterId, subjectId);
+    public Semester removeSubjectFromSemester(Long semesterId, String subjectCode) {
+        semesterSubjectRepository.delete("semester.id = ?1 and subject.code = ?2", semesterId, subjectCode);
         return findById(semesterId);
     }
 }
