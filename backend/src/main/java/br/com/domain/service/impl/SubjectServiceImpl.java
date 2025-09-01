@@ -1,5 +1,6 @@
 package br.com.domain.service.impl;
 
+import br.com.domain.exception.SubjectAlreadyExistsException;
 import br.com.domain.exception.SubjectNotFoundException;
 import br.com.domain.model.Subject;
 import br.com.domain.service.SubjectService;
@@ -8,7 +9,9 @@ import br.com.infrastructure.repository.SubjectRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.postgresql.util.PSQLException;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,11 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional
     public Subject create(Subject subject) {
+        Optional<SubjectEntity> existingSubject = subjectRepository.findByIdOptional(subject.getCode());
+        if (existingSubject.isPresent()) {
+            throw new SubjectAlreadyExistsException(subject.getCode());
+        }
+
         SubjectEntity entity = subject.toEntity();
         subjectRepository.persist(entity);
         return subject;

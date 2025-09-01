@@ -59,7 +59,24 @@ class SubjectServiceImplTest {
     }
 
     @Test
-    void whenCreate_ThenFailure() {
+    void whenCreateExistingSubject_ThenFailure() {
+        // Given
+        doNothing().when(subjectRepository).persist(any(SubjectEntity.class));
+
+        // When
+        Subject obtained = subjectService.create(expectedSubject);
+
+        // Then
+        assertNotNull(obtained);
+        assertEquals(expectedSubject.getCode(), obtained.getCode());
+        assertEquals(expectedSubject.getName(), obtained.getName());
+        assertEquals(expectedSubject.getInstructorName(), obtained.getInstructorName());
+        assertEquals(expectedSubject.getWorkload(), obtained.getWorkload());
+        verify(subjectRepository, times(1)).persist(any(SubjectEntity.class));
+    }
+
+    @Test
+    void whenCreateUsingNull_ThenFailure() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
             subjectService.create(null);
@@ -82,7 +99,7 @@ class SubjectServiceImplTest {
     }
 
     @Test
-    void whenDelete_ThenFailure_NotFound() {
+    void whenDeleteUsingUnsavedCode_ThenFailure_NotFound() {
         // Given
         String subjectCode = "NOT_SAVED_CODE";
         when(subjectRepository.deleteById(subjectCode)).thenReturn(false);
@@ -127,7 +144,7 @@ class SubjectServiceImplTest {
     }
 
     @Test
-    void whenFindByCode_ThenFailureNotFound() {
+    void whenFindByCodeUsingUnsavedCode_ThenFailureNotFound() {
         // Given
         String subjectCode = "NOT_SAVED_CODE";
         when(subjectRepository.findByIdOptional(subjectCode)).thenReturn(Optional.empty());
@@ -156,7 +173,7 @@ class SubjectServiceImplTest {
     }
 
     @Test
-    void whenUpdate_ThenSuccess() {
+    void whenUpdateExistingSubject_ThenSuccess() {
         // Given
         Subject subjectToUpdate = new Subject("CS101", "Updated Computer Science", "João Pereira", 80L);
         SubjectEntity existingEntity = new SubjectEntity("CS101", "Computer Science", "Amanda da Silva", 60L);
@@ -178,7 +195,7 @@ class SubjectServiceImplTest {
     }
 
     @Test
-    void whenUpdate_ThenFailure_SubjectNotFound() {
+    void whenUpdateUsingUnsavedSubject_ThenFailure_SubjectNotFound() {
         // Given
         Subject subjectToUpdate = new Subject("UNKNOWN_CODE", "Updated Subject", "Luciana Souza", 80L);
         when(subjectRepository.findByIdOptional("UNKNOWN_CODE")).thenReturn(Optional.empty());
@@ -194,7 +211,7 @@ class SubjectServiceImplTest {
     }
 
     @Test
-    void whenUpdate_ThenFailure_NullSubject() {
+    void whenUpdateUsingNull_ThenFailure_NullSubject() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
             subjectService.update(null);

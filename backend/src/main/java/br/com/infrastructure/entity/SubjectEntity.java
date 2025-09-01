@@ -13,7 +13,6 @@ public class SubjectEntity extends PanacheEntityBase {
     @Id
     private String code;
     private String name;
-    @Column(name = "instructor_name")
     private String instructorName;
     private Long workload;
 
