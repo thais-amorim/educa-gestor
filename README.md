@@ -1,7 +1,10 @@
 # educa-gestor
 
-Uma breve descrição sobre o que esse projeto faz e para quem ele é
+Desenvolver uma aplicação web responsiva para administrar alunos, professores e cursos com integração ao keycloak.
 
+## Tecnologias utilizadas
+- backend: Java 21 com Quarkus
+- frontend: Angular 20 (standalone)
 
 ## Autores
 
@@ -12,79 +15,48 @@ Uma breve descrição sobre o que esse projeto faz e para quem ele é
 
 Insira um gif ou um link de alguma demonstração
 
+## Como executar o projeto
+ Pré-requisitos:
+ - Ter o java 21 instalado
+ - Ter docker e docker-compose instalados
+
+```bash
+# Executar o docker-compose para subir:
+# - o banco de dados postgres
+# - o keycloak
+$ cd educa-gestor/dockerfiles
+$ docker-compose -f docker-compose.yml up
+
+
+# Executar o backend
+$ cd educa-gestor/backend
+$ quarkus dev
+
+#Executar o frontend
+$ cd educa-gestor/frontend
+$ ng serve
+```
 
 ## Funcionalidades
 
-- Frontend
-  - Conexão com keycloak
+### Frontend
   - Angular Material UI
-  - Executar front: `ng serve`
-- Backend
-  - Exceutar back: `cd backend && quarkus dev`
+  - Fazer login com usuário criado manualmente no keycloak
+  - Realizar processo de primeiro login e atualizar dados do user no keycloak
 
-## Melhorias
+  ![img.png](docs/images/img.png)
 
-Que melhorias você fez no seu código? Ex: refatorações, melhorias de performance, acessibilidade, etc
+  ![img.png](docs/images/frontend-update-password.png)
 
---------------------------------
+  ![img.png](docs/images/update-user-pernal-info.png)
 
-## Running the application in dev mode
+### Backend
+  - Criado com java e quarkus
+  - Foi utilizado DDD para organizar o código
+  - Solicita a autenticação para acessar os endpoints com `@Authenticated`, onde basta ser um usuário com token criado pelo keycloak. Não foi implementado a distinção pela role (e.g. admin, coordenador).
+  - A estrutura do banco de dados Postgres foi criadao usando migrations, ver `backend/src/main/resources/db/migration`. Ao subir o service flyway do docker-compose, ele já faz a aplicação dessas migrations.
+  - Incluir, excluir, atualizar e visualizar:
+    - disciplina (`subject`)
+    - semestre (`semester`)
+    - curso (`course`)
 
-You can run your application in dev mode that enables live coding using:
-
-```shell script
-./gradlew quarkusDev
-```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
-
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./gradlew build
-```
-
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./gradlew build -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./build/educa-gestor-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)

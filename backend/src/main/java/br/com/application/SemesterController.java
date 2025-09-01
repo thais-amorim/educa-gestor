@@ -49,6 +49,7 @@ public class SemesterController {
 
     @GET
     @Path("/all")
+    @Authenticated
     public Response findAll() {
         return Response
                 .ok(service.findAll())

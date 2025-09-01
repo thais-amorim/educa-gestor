@@ -9,9 +9,7 @@ import br.com.infrastructure.repository.SubjectRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.postgresql.util.PSQLException;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
