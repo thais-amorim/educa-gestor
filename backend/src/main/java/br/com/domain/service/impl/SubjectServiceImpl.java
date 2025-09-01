@@ -40,11 +40,17 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional
-    public Subject update(Subject subjectId) {
-//        Optional<SubjectEntity> optional = subjectRepository.findByIdOptional(newSubject.getId());
-//        SubjectEntity oldSubject = optional.orElseThrow(() -> new SubjectNotFoundException(newSubject.getId()));
-
-        return null;
+    public Subject update(Subject subject) {
+        Optional<SubjectEntity> optional = subjectRepository.findByIdOptional(subject.getCode());
+        SubjectEntity existingSubject = optional.orElseThrow(() -> new SubjectNotFoundException(subject.getCode()));
+        
+        existingSubject.setName(subject.getName());
+        existingSubject.setInstructorName(subject.getInstructorName());
+        existingSubject.setWorkload(subject.getWorkload());
+        
+        subjectRepository.persist(existingSubject);
+        
+        return existingSubject.toDomain();
     }
 
     @Override
