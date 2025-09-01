@@ -4,6 +4,8 @@ CREATE TABLE subject (
     name VARCHAR(200) NOT NULL,
     instructor_id INT NULL,
     workload INT,
+    begin_at TIMESTAMP NULL,
+    end_at TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NULL DEFAULT NULL
 );
@@ -15,6 +17,7 @@ CREATE TABLE semester (
     updated_at TIMESTAMP NULL DEFAULT NULL
 );
 
+-- Create the relationship between semesters and subjects
 CREATE TABLE semester_subject (
     id INT NOT NULL PRIMARY KEY,
     subject_id INT NOT NULL,
@@ -33,6 +36,7 @@ CREATE TABLE course (
     updated_at TIMESTAMP NULL DEFAULT NULL
 );
 
+-- Create the relationship between courses and semesters
 CREATE TABLE course_semester (
     id INT NOT NULL PRIMARY KEY,
     course_id INT NOT NULL,
